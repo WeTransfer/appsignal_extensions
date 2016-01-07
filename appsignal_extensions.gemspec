@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "LICENSE.txt",
     "README.md",
     "Rakefile",
+    "appsignal_extensions.gemspec",
     "lib/appsignal_extensions.rb",
     "lib/appsignal_extensions/middleware.rb",
     "lib/appsignal_extensions/version.rb",
