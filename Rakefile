@@ -19,8 +19,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "appsignal_extensions"
   gem.homepage = "https://gitlab.wetransfer.net/julik/appsignal_extensions"
   gem.license = "Proprietary"
-  gem.description = %Q{TODO: longer description of your gem}
-  gem.summary = %Q{Doing some more with Appsignal}
+  gem.description = %Q{Doing some more with Appsignal}
+  gem.summary = %Q{Suspend an Appsignal transaction for long responses}
   gem.email = "me@julik.nl"
   gem.authors = ["Julik Tarkhanov"]
   # dependencies defined in Gemfile
