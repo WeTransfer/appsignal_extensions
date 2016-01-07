@@ -11,9 +11,11 @@ rescue Bundler::BundlerError => e
 end
 require 'rake'
 
+require_relative 'lib/appsignal_extensions/version'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://guides.rubygems.org/specification-reference/ for more options
+  gem.version = AppsignalExtensions::VERSION
   gem.name = "appsignal_extensions"
   gem.homepage = "https://gitlab.wetransfer.net/julik/appsignal_extensions"
   gem.license = "Proprietary"
