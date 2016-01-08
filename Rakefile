@@ -18,7 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.version = AppsignalExtensions::VERSION
   gem.name = "appsignal_extensions"
   gem.homepage = "https://gitlab.wetransfer.net/julik/appsignal_extensions"
-  gem.license = "Proprietary"
+  gem.license = "MIT"
   gem.description = %Q{Doing some more with Appsignal}
   gem.summary = %Q{Suspend an Appsignal transaction for long responses}
   gem.email = "me@julik.nl"
