@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem 'appsignal', '~> 0.12.rc8'
+gem 'appsignal'
 
 group :development do
   gem 'rack-test'
