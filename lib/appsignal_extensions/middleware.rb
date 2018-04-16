@@ -5,20 +5,14 @@ require 'delegate'
 # closes the transaction as soon as the response triplet gets returned,
 # we need to keep the transaction open as long as the response is being read.
 class AppsignalExtensions::Middleware
-  
-  def self.appsignal_defined_and_active?
-    !!(defined?(Appsignal) && Appsignal.active?)
-  end
-  
+
   # Appsignal::Transaction has no #close method, you have to use a global
   # function call instead. We wrap it with a simple proxy that provides
   # close
   class Close < SimpleDelegator
     # Closes the current Appsignal transaction
     def close
-      if AppsignalExtensions::Middleware.appsignal_defined_and_active?
-        Appsignal::Transaction.complete_current!
-      end
+      Appsignal::Transaction.complete_current! if Appsignal.active?
     end
   end
   
@@ -78,7 +72,7 @@ class AppsignalExtensions::Middleware
   def call(env)
     request = ::Rack::Request.new(env)
     env['action_dispatch.request_id'] ||= SecureRandom.uuid
-    if self.class.appsignal_defined_and_active?
+    if Appsignal.active?
       call_with_appsignal(env, request)
     else
       call_with_null_transaction(env, request)
@@ -130,7 +124,7 @@ class AppsignalExtensions::Middleware
     # Let the app do something to the appsignal transaction if it wants to
     # Instrument a `process_action`, to set params/action name
     transaction = Close.new(bare_transaction)
-    status, headers, body = ActiveSupport::Notifications.instrument('process_action.rack') do
+    status, headers, body = Appsignal.instrument('process_action.rack') do
       call_and_capture(env, transaction, request)
     end
     

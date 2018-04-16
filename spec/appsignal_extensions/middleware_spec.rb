@@ -24,7 +24,7 @@ describe AppsignalExtensions::Middleware do
   
   context 'using a NullTransaction if Appsignal is disabled or not defined' do
     it 'returns the app call result if no exceptions are raised' do
-      expect(described_class).to receive(:appsignal_defined_and_active?) { false }
+      expect(Appsignal).to receive(:active?).and_return(false)
     
       fake_transaction = double('NullTransaction')
       @app = ->(env) {
@@ -55,7 +55,7 @@ describe AppsignalExtensions::Middleware do
     end
     
     it 're-raises the exception raised in the app call and sets it in the transaction' do
-      expect(described_class).to receive(:appsignal_defined_and_active?) { false }
+      expect(Appsignal).to receive(:active?).and_return(false)
     
       fake_transaction = double('NullTransaction')
       @app = ->(env) {
@@ -91,7 +91,7 @@ describe AppsignalExtensions::Middleware do
     end
     
     it 're-raises the exception raised in the response body and sets it in the transaction' do
-      expect(described_class).to receive(:appsignal_defined_and_active?) { false }
+      expect(Appsignal).to receive(:active?).and_return(false)
     
       fake_transaction = double('NullTransaction')
       raising_body = Class.new do
@@ -133,8 +133,8 @@ describe AppsignalExtensions::Middleware do
     end
     
     it 'leaves the transaction open if appsignal.suspend header is passed in the response' do
-      expect(described_class).to receive(:appsignal_defined_and_active?) { false }
-    
+      expect(Appsignal).to receive(:active?).and_return(false)
+      
       fake_transaction = double('NullTransaction')
       
       @app = ->(env) {
@@ -164,21 +164,11 @@ describe AppsignalExtensions::Middleware do
     end
   end
   
-  describe '.appsignal_defined_and_active?' do
-    it 'properly returns the right check boolean' do
-      if defined?(Appsignal) && Appsignal.active?
-        expect(described_class.appsignal_defined_and_active?).to eq(true)
-      else
-        expect(described_class.appsignal_defined_and_active?).to eq(false)
-      end
-    end
-  end
-  
   context 'using a real Appsignal::Transaction' do
     it 'creates and closes the transaction, and ensures the transaction supports #close' do
       pending "No Appsignal to test with" unless defined?(Appsignal)
       
-      allow(described_class).to receive(:appsignal_defined_and_active?) { true }
+      allow(Appsignal).to receive(:active?).and_return(true)
       
       expect(Appsignal::Transaction).to receive(:complete_current!).and_call_original
       
@@ -203,8 +193,7 @@ describe AppsignalExtensions::Middleware do
       
       mock_config = double('Appsignal::Config', :active? => true, :[] => [])
       allow(Appsignal).to receive(:config).and_return(mock_config)
-      
-      allow(described_class).to receive(:appsignal_defined_and_active?) { true }
+      allow(Appsignal).to receive(:active?).and_return(true)
       
       expect(Appsignal::Transaction).to receive(:complete_current!).and_call_original
       expect_any_instance_of(Appsignal::Transaction).to receive(:set_error).and_call_original
@@ -222,7 +211,7 @@ describe AppsignalExtensions::Middleware do
       
       mock_config = double('Appsignal::Config')
       allow(Appsignal).to receive(:config).and_return(mock_config)
-      allow(described_class).to receive(:appsignal_defined_and_active?) { true }
+      expect(Appsignal).to receive(:active?).and_return(true)
       expect(Appsignal::Transaction).not_to receive(:complete_current!)
       
       @app = ->(env) {
