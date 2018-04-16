@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = "2.2.2"
   s.summary = "Suspend an Appsignal transaction for long responses"
   s.specification_version = 4
-  s.add_runtime_dependency(%q<appsignal>, ["~> 1"])
+  s.add_runtime_dependency(%q<appsignal>, ["~> 2"])
   s.add_development_dependency(%q<rake>, ["~> 10"])
   s.add_development_dependency(%q<rack-test>, [">= 0"])
   s.add_development_dependency(%q<rspec>, ["~> 3.2.0"])
