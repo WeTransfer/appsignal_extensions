@@ -6,10 +6,6 @@ require 'delegate'
 # we need to keep the transaction open as long as the response is being read.
 class AppsignalExtensions::Middleware
   
-  def self.appsignal_defined_and_active?
-    !!(defined?(Appsignal) && Appsignal.active?)
-  end
-  
   # Appsignal::Transaction has no #close method, you have to use a global
   # function call instead. We wrap it with a simple proxy that provides
   # close
@@ -20,27 +16,6 @@ class AppsignalExtensions::Middleware
         Appsignal::Transaction.complete_current!
       end
     end
-  end
-  
-  # Acts as a null-object replacement for the Appsignal transaction if there is no
-  # transaction to provide (when Appsignal is not defined under jRuby or when
-  # Appsignal is not configured or disabled). Supports the basic method set
-  # that is important for us.
-  class NullTransaction
-    # @return [void]
-    def set_action(*);end
-    
-    # @return [void]
-    def set_metadata(*);end
-    
-    # @return [void]
-    def set_http_or_background_queue_start(*);end
-    
-    # @return [void]
-    def set_error(*); end
-    
-    # @return [void]
-    def close(*);end
   end
   
   # Acts as a wrapper for Rack response bodies. Ensures that the transaction attached to
@@ -78,11 +53,7 @@ class AppsignalExtensions::Middleware
   def call(env)
     request = ::Rack::Request.new(env)
     env['action_dispatch.request_id'] ||= SecureRandom.uuid
-    if self.class.appsignal_defined_and_active?
-      call_with_appsignal(env, request)
-    else
-      call_with_null_transaction(env, request)
-    end
+    call_with_appsignal(env, request)
   end
   
   private
@@ -113,11 +84,6 @@ class AppsignalExtensions::Middleware
     transaction.set_error(e)
     transaction.close
     raise e
-  end
-  
-  def call_with_null_transaction(env, request)
-    # Supply the app with a null transaction
-    call_and_capture(env, NullTransaction.new, request)
   end
   
   def call_with_appsignal(env, request)
