@@ -5,20 +5,17 @@ require_relative "lib/appsignal_extensions/version"
 Gem::Specification.new do |spec|
   spec.name = "appsignal_extensions"
   spec.version = AppsignalExtensions::VERSION
-  spec.authors = ["grdw"]
-  spec.email = ["gerard@wetransfer.com"]
+  spec.authors = ["Julik Tarkhanov", "grdw"]
+  spec.email = ["me@julik.nl", "gerard@wetransfer.com"]
 
-  spec.summary = "TODO: Write a short summary, because RubyGems requires one."
-  spec.description = "TODO: Write a longer description or delete this line."
-  spec.homepage = "TODO: Put your gem's website or public repo URL here."
+  spec.summary = "Suspend an Appsignal transaction for long responses"
+  spec.description = "Doing some more with Appsignal"
+  spec.homepage = "https://gitlab.wetransfer.net/julik/appsignal_extensions"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"
 
-  spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
-
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = spec.homepage
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
@@ -36,4 +33,11 @@ Gem::Specification.new do |spec|
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
+  spec.add_dependency("appsignal", "~> 2")
+  spec.add_development_dependency("rake", "~> 10")
+  spec.add_development_dependency("rack-test", ">= 0")
+  spec.add_development_dependency("rspec", "~> 3.2.0")
+  spec.add_development_dependency("rdoc", "~> 6")
+  spec.add_development_dependency("bundler", "~> 2.0")
+  spec.add_development_dependency("rubocop", "~> 1.21")
 end
