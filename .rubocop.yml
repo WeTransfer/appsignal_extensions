@@ -19,9 +19,16 @@ Lint/AmbiguousBlockAssociation:
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*"
+    - "*.gemspec"
 
 Metrics/MethodLength:
   Max: 50
+
+Metrics/AbcSize:
+  Enabled: false
+
+Naming/AccessorMethodName:
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
@@ -35,8 +42,14 @@ Style/IfUnlessModifier:
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
+Style/FormatStringToken:
+  Enabled: false
+
 Style/GuardClause:
   Enabled: false
 
 Lint/MissingSuper:
+  Enabled: false
+
+Lint/RescueException:
   Enabled: false
