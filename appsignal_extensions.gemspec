@@ -34,10 +34,10 @@ Gem::Specification.new do |spec|
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
   spec.add_dependency("appsignal", "~> 2")
-  spec.add_development_dependency("rake", "~> 10")
-  spec.add_development_dependency("rack-test", ">= 0")
-  spec.add_development_dependency("rspec", "~> 3.2.0")
-  spec.add_development_dependency("rdoc", "~> 6")
   spec.add_development_dependency("bundler", "~> 2.0")
+  spec.add_development_dependency("rack-test", ">= 0")
+  spec.add_development_dependency("rake", "~> 10")
+  spec.add_development_dependency("rdoc", "~> 6")
+  spec.add_development_dependency("rspec", "~> 3.2.0")
   spec.add_development_dependency("rubocop", "~> 1.21")
 end
