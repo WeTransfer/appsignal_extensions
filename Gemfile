@@ -1,3 +1,6 @@
-source "http://rubygems.org"
+# frozen_string_literal: true
 
+source "https://rubygems.org"
+
+# Specify your gem's dependencies in appsignal_extensions.gemspec
 gemspec

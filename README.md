@@ -1,48 +1,43 @@
-# appsignal_extensions
+# AppsignalExtensions
 
-When you want to do something more to Appsignal than the gem provides out of the box.
+Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/appsignal_extensions`. To experiment with that code, run `bin/console` for an interactive prompt.
 
-## The Rack middleware
+TODO: Delete this and the text above, and describe your gem
 
-The gem provides a customized Appsignal middleware, which makes a number of extra things
-possible. Simplest use is just like the standard Rack listener in Appsignal:
+## Installation
 
-    use AppsignalExtensions::Middleware
+Add this line to your application's Gemfile:
 
-Just make sure Appsignal is configured and started at some point in the code. That means
-that for information to come in `Appsignal.active?` should be true.
+```ruby
+gem 'appsignal_extensions'
+```
 
-The transaction is going to be kept open as long as the iteraion over the Rack body
-object continues. Therefore, you can use this middleware for long-polling too (long bodies
-which `yield` chunked content and so on).
+And then execute:
 
-If you need more specific long response support, you can output a special header with your
-response called 'appsignal.suspend'. If you set that header to a truthy value, the transaction
-is not going to be closed for you. You can then close the transaction with your Thin `errback`
-proc or similar, or close it explicitly in the `close` handler of your response body.
+    $ bundle install
 
-The transaction is also going to be placed in the `appsignal.transaction` Rack env variable,
-and you can do things to the transaction manually. For instance:
-  
-    ->(env) {
-      env['appsignal.transaction'].set_action('MyHandler#perform')
-      ...
-    }
+Or install it yourself as:
 
-If Appsignal is not enabled or not configured, the middleware is going to supply you with a
-special `NullTransaction` object instead which responds to all the same methods as a real
-`Appsignal::Transaction`, so that you can avoid redundant nil checks.
+    $ gem install appsignal_extensions
 
-## Contributing to appsignal_extensions
- 
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
-* Fork the project.
-* Start a feature/bugfix branch.
-* Commit and push until you are happy with your contribution.
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+## Usage
 
-## Copyright
+TODO: Write usage instructions here
 
-Copyright (c) 2016 WeTransfer. See LICENSE.txt for further details.
+## Development
+
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/appsignal_extensions. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/appsignal_extensions/blob/main/CODE_OF_CONDUCT.md).
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+## Code of Conduct
+
+Everyone interacting in the AppsignalExtensions project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/appsignal_extensions/blob/main/CODE_OF_CONDUCT.md).
