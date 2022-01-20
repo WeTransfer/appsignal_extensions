@@ -36,8 +36,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency("appsignal", "~> 2")
   spec.add_development_dependency("bundler", "~> 2.0")
   spec.add_development_dependency("rack-test", ">= 0")
-  spec.add_development_dependency("rake", "~> 10")
+  spec.add_development_dependency("rake", "~> 13")
   spec.add_development_dependency("rdoc", "~> 6")
-  spec.add_development_dependency("rspec", "~> 3.2.0")
+  spec.add_development_dependency("rspec", "~> 3.10.0")
   spec.add_development_dependency("rubocop", "~> 1.21")
 end
