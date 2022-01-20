@@ -165,12 +165,15 @@ describe AppsignalExtensions::Middleware do
   end
 
   context "using a real Appsignal::Transaction" do
+    let(:mock_config) { double("Appsignal::Config", :active? => true, :[] => []) }
     it "creates and closes the transaction, and ensures the transaction supports #close" do
       pending "No Appsignal to test with" unless defined?(Appsignal)
 
       allow(Appsignal).to receive(:active?).and_return(true)
 
       expect(Appsignal::Transaction).to receive(:complete_current!).and_call_original
+
+      allow(Appsignal).to receive(:config).and_return(mock_config)
 
       # Create the actual Transaction in advance
       request_id = SecureRandom.uuid
@@ -191,7 +194,6 @@ describe AppsignalExtensions::Middleware do
     it "logs the error to Appsignal from within the rack app call" do
       pending "No Appsignal to test with" unless defined?(Appsignal)
 
-      mock_config = double("Appsignal::Config", :active? => true, :[] => [])
       allow(Appsignal).to receive(:config).and_return(mock_config)
       allow(Appsignal).to receive(:active?).and_return(true)
 
@@ -209,7 +211,6 @@ describe AppsignalExtensions::Middleware do
     it "handles a suspended transaction" do
       pending "No Appsignal to test with" unless defined?(Appsignal)
 
-      mock_config = double("Appsignal::Config")
       allow(Appsignal).to receive(:config).and_return(mock_config)
       expect(Appsignal).to receive(:active?).and_return(true)
       expect(Appsignal::Transaction).not_to receive(:complete_current!)
